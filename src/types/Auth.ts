@@ -9,3 +9,7 @@ export interface Register {
   password: string
   role: 'admin' | 'user'
 }
+
+export interface AuthReponse {
+  access_token: string
+}
