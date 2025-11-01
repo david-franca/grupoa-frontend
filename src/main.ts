@@ -6,23 +6,26 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { registerPlugins } from './plugins'
 import router from './router'
-import authService from './services/authService'
+import { useAuth } from './stores/auth.store'
+import { setAuthHeader } from './services/auth/api/authService'
 
 const app = createApp(App)
 
-authService.setupAuthOnAppInit()
-
 router.beforeEach((to, from, next) => {
+  const { isLoggedIn, token } = useAuth()
+
+  if (token) {
+    setAuthHeader(token)
+  }
+
   const publicPages = ['/login']
   const authRequired = !publicPages.includes(to.path)
 
-  const loggedIn = authService.isLoggedIn()
-
-  if (authRequired && !loggedIn) {
+  if (authRequired && !isLoggedIn) {
     return next('/login')
   }
 
-  if (!authRequired && loggedIn) {
+  if (!authRequired && isLoggedIn) {
     return next('/students')
   }
 
