@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-model="drawer" app permanent>
-      <v-img src="./logo.png" width="4rem" class="mx-auto py-2 mb-2" />
+    <v-navigation-drawer v-model="drawer" app>
+      <v-img src="./logo.png" width="4rem" class="mx-auto py-2 my-2" />
       <v-list dense nav>
         <v-list-item v-for="item in menuItems" :key="item.title" :to="item.to" link>
           <template v-slot:prepend>
@@ -13,7 +13,11 @@
     </v-navigation-drawer>
 
     <v-app-bar app class="app-bar-container">
-      <v-app-bar-nav-icon color="white" @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon
+        color="white"
+        @click="drawer = !drawer"
+        class="d-lg-none"
+      ></v-app-bar-nav-icon>
 
       <v-spacer></v-spacer>
 
@@ -31,19 +35,15 @@
 </template>
 
 <script setup lang="ts">
+import { useAuth } from '@/stores/auth.store'
 import { ref } from 'vue'
-import authService from '@/services/authService'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const { clearAuth } = useAuth()
 
-// --- Estado (State) ---
-
-// Controla se o menu lateral está visível (importante para telas móveis)
-// Iniciamos como 'true' para que ele seja visível em desktops por padrão.
 const drawer = ref(true)
 
-// Itens do menu de navegação
 const menuItems = ref([
   { title: 'Alunos', icon: 'mdi-school', to: '/students' },
   { title: 'Usuários', icon: 'mdi-account', to: '/users' },
@@ -52,7 +52,7 @@ const menuItems = ref([
 // --- Métodos (Methods) ---
 function handleLogout() {
   try {
-    authService.logout()
+    clearAuth()
     router.push('/login')
   } catch (error) {
     console.error('Erro no logout:', error)
