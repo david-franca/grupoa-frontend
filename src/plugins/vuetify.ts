@@ -2,7 +2,8 @@
 
 // Importa os estilos principais do Vuetify
 import 'vuetify/styles'
-
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
 // Importa os ícones (necessário para o v-icon)
 import '@mdi/font/css/materialdesignicons.css'
 
@@ -25,6 +26,8 @@ const lightTheme = {
 
 // Exporta a instância do Vuetify
 export default createVuetify({
+  components,
+  directives,
   theme: {
     defaultTheme: 'lightTheme',
     themes: {
