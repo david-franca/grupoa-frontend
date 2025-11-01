@@ -33,43 +33,28 @@
             class="mb-2"
           ></v-text-field>
 
-          <v-btn type="submit" color="primary" size="large" block :loading="isLoading" class="mt-2">
+          <v-btn type="submit" color="primary" size="large" block :loading="isPending" class="mt-2">
             Entrar
           </v-btn>
         </v-form>
-        <v-card-text>
-          <v-alert
-            v-if="error"
-            type="error"
-            variant="tonal"
-            closable
-            @click:close="error = ''"
-            class="mb-2"
-          >
-            {{ error }}
-          </v-alert>
-        </v-card-text>
       </v-card>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import authService from '@/services/authService'
-import { AxiosError } from 'axios'
+import { useLogin } from '@/services/auth/hooks/useLogin'
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 
 type VForm = InstanceType<(typeof import('vuetify/components'))['VForm']>
+
+const { mutate, isPending } = useLogin()
+
 // --- Estado (State) ---
-const isLoading = ref(false)
 const email = ref('admin@example.com')
 const password = ref('hashed_password_here')
 const showPassword = ref(false)
-const error = ref<string | null>('')
 const form = ref<VForm | null>(null)
-
-const router = useRouter()
 
 const emailRules = [
   (v: string) => !!v || 'Email é obrigatório',
@@ -87,27 +72,10 @@ const handleLogin = async () => {
   const { valid } = await form.value.validate()
   if (!valid) return
 
-  isLoading.value = true
-  error.value = ''
-
-  try {
-    await authService.login({
-      email: email.value,
-      password: password.value,
-    })
-
-    router.push('/students')
-  } catch (err) {
-    console.error(err)
-
-    if (err instanceof AxiosError) {
-      error.value = err.response?.data.errors[0]
-    } else {
-      error.value = 'Email ou senha inválidos'
-    }
-  } finally {
-    isLoading.value = false
-  }
+  mutate({
+    email: email.value,
+    password: password.value,
+  })
 }
 </script>
 
