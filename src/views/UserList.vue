@@ -21,7 +21,7 @@
           {{ value === 'admin' ? 'Administrador' : 'Professor' }}
         </template>
         <template v-slot:item.actions="{ item }">
-          <v-tooltip location="top" text="Editar Aluno">
+          <v-tooltip location="top" text="Editar Usuário">
             <template v-slot:activator="{ props }">
               <v-icon v-bind="props" small class="mr-2" @click="openEditModal(item)">
                 mdi-pencil
@@ -29,7 +29,7 @@
             </template>
           </v-tooltip>
 
-          <v-tooltip location="top" text="Excluir Aluno">
+          <v-tooltip location="top" text="Excluir Usuário">
             <template v-slot:activator="{ props }">
               <v-icon v-bind="props" small @click="openDeleteConfirm(item)"> mdi-delete </v-icon>
             </template>
@@ -38,6 +38,12 @@
       </v-data-table-server>
     </v-card-text>
     <UserFormDialog v-model="isDialogVisible" :user="selectedUser" />
+    <ConfirmDeleteDialog
+      v-model="isDeleteDialogOpen"
+      :name="selectedUser?.name"
+      :is-loading="isPending"
+      @confirm="handleDeleteConfirm"
+    />
   </v-card>
 </template>
 
@@ -50,6 +56,7 @@ import type { User } from '@/types'
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import type { DataTableSortItem } from 'vuetify'
+import ConfirmDeleteDialog from '@/components/ConfirmDeleteDialog.vue'
 
 interface Options {
   page: number
