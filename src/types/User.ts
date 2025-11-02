@@ -3,13 +3,17 @@ export interface User {
   name: string
   email: string
   password: string
-  isActive: boolean
-  created_at: string
-  updated_at: string
+  role: 'admin' | 'user'
 }
 
 export interface UpdateUser {
   name?: string
   email?: string
   password?: string
+  role?: 'admin' | 'user'
+}
+
+export interface UpdateUserProps {
+  id: number
+  payload: UpdateUser
 }
