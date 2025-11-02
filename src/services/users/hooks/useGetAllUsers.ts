@@ -1,12 +1,12 @@
 import { keepPreviousData, useQuery } from '@tanstack/vue-query'
-import { getAllStudents } from '../api/studentService'
+import { getAllUsers } from '../api/userService'
 import type { GetAllHookProps } from '@/types'
 
-export const useGetAllStudents = ({ limit, page, search, field, order }: GetAllHookProps) =>
+export const useGetAllUsers = ({ limit, page, search, field, order }: GetAllHookProps) =>
   useQuery({
-    queryKey: ['students', search, limit, page, field, order],
+    queryKey: ['users', search, limit, page, field, order],
     queryFn: () =>
-      getAllStudents({
+      getAllUsers({
         search: search.value,
         limit: limit.value,
         page: page.value,

@@ -13,3 +13,8 @@ export interface UpdateUser {
   email?: string
   password?: string
 }
+
+export interface UpdateUserProps {
+  id: number
+  payload: UpdateUser
+}
