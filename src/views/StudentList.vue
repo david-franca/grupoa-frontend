@@ -40,7 +40,7 @@
     <StudentFormDialog v-model="isDialogVisible" :student="selectedStudent" />
     <ConfirmDeleteDialog
       v-model="isDeleteDialogOpen"
-      :student="selectedStudent"
+      :name="selectedStudent?.name"
       :is-loading="isPending"
       @confirm="handleDeleteConfirm"
     />
