@@ -6,4 +6,8 @@ export const pt = {
     email: 'E-mail',
     password: 'Senha',
   },
+  layout: {
+    students: 'Alunos',
+    users: 'Usuários',
+  },
 }

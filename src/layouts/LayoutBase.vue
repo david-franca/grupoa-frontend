@@ -37,14 +37,16 @@
 <script setup lang="ts">
 import { useAuth } from '@/stores/auth.store'
 import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const { clearAuth, isUser } = useAuth()
+const { t } = useI18n()
 
 const drawer = ref(true)
 
 const allMenuItems = ref([
-  { title: 'Alunos', icon: 'mdi-school', to: '/students' },
-  { title: 'Usuários', icon: 'mdi-account', to: '/users' },
+  { title: t('layout.students'), icon: 'mdi-school', to: '/students' },
+  { title: t('layout.users'), icon: 'mdi-account', to: '/users' },
 ])
 
 const menuItems = computed(() => {
