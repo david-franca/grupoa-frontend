@@ -48,4 +48,12 @@ export const pt = {
       cpfValid: 'CPF inválido.',
     },
   },
+  confirmDeleteDialog: {
+    title: 'Confirmar Exclusão',
+    confirmationMessage: 'Você tem certeza que deseja excluir {name}"?',
+    confirmationMessageGeneric: 'Você tem certeza que deseja excluir este item?',
+    irreversibleAction: 'Esta ação não pode ser desfeita.',
+    cancelButton: 'Cancelar',
+    deleteButton: 'Excluir',
+  },
 }
