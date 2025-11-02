@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/valid-v-slot -->
 <template>
   <v-card>
-    <StudentHeader />
+    <UserHeader />
     <v-card-text>
       <v-data-table-server
         mobile-breakpoint="md"
@@ -17,11 +17,11 @@
         class="elevation-1"
         @update:options="updateOptions"
       >
-        <template v-slot:item.cpf="{ value }">
-          {{ formatCPF(value) }}
+        <template v-slot:item.role="{ value }">
+          {{ value === 'admin' ? 'Administrador' : 'Professor' }}
         </template>
         <template v-slot:item.actions="{ item }">
-          <v-tooltip location="top" text="Editar Aluno">
+          <v-tooltip location="top" text="Editar Usuário">
             <template v-slot:activator="{ props }">
               <v-icon v-bind="props" small class="mr-2" @click="openEditModal(item)">
                 mdi-pencil
@@ -29,7 +29,7 @@
             </template>
           </v-tooltip>
 
-          <v-tooltip location="top" text="Excluir Aluno">
+          <v-tooltip location="top" text="Excluir Usuário">
             <template v-slot:activator="{ props }">
               <v-icon v-bind="props" small @click="openDeleteConfirm(item)"> mdi-delete </v-icon>
             </template>
@@ -37,10 +37,10 @@
         </template>
       </v-data-table-server>
     </v-card-text>
-    <StudentFormDialog v-model="isDialogVisible" :student="selectedStudent" />
+    <UserFormDialog v-model="isDialogVisible" :user="selectedUser" />
     <ConfirmDeleteDialog
       v-model="isDeleteDialogOpen"
-      :name="selectedStudent?.name"
+      :name="selectedUser?.name"
       :is-loading="isPending"
       @confirm="handleDeleteConfirm"
     />
@@ -48,15 +48,14 @@
 </template>
 
 <script setup lang="ts">
-import StudentHeader from '@/components/StudentHeader.vue'
-import { useGetAllStudents } from '@/services/students/hooks/useGetAllStudents'
-import type { Student } from '@/types/Student'
-import { formatCPF } from '@/utils/formatCPF'
+import UserFormDialog from '@/components/UserFormDialog.vue'
+import UserHeader from '@/components/UserHeader.vue'
+import { useGetAllUsers } from '@/services/users/hooks/useGetAllUsers'
+import { useRemoveUser } from '@/services/users/hooks/useRemoveUser'
+import type { User } from '@/types'
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import type { DataTableSortItem } from 'vuetify'
-import StudentFormDialog from '@/components/StudentFormDialog.vue'
-import { useRemoveStudent } from '@/services/students/hooks/useRemoveStudent'
 import ConfirmDeleteDialog from '@/components/ConfirmDeleteDialog.vue'
 
 interface Options {
@@ -74,17 +73,17 @@ const order = ref<DataTableSortItem['order']>(
   (route.query.order?.toString() as DataTableSortItem['order']) || 'asc',
 )
 const itemsPerPage = ref(Number(route.query.limit) || 10)
-const selectedStudent = ref<Student | null>(null)
+const selectedUser = ref<User | null>(null)
 const isDialogVisible = ref(false)
 const isDeleteDialogOpen = ref(false)
-const { data, isLoading } = useGetAllStudents({ search, limit: itemsPerPage, page, field, order })
-const { mutateAsync, isPending } = useRemoveStudent()
+const { data, isLoading } = useGetAllUsers({ search, limit: itemsPerPage, page, field, order })
+const { mutateAsync, isPending } = useRemoveUser()
 
 const headers = ref([
-  { title: 'RA', key: 'ra', align: 'start' as const },
+  { title: 'ID', key: 'id', align: 'start' as const },
   { title: 'Nome', key: 'name', align: 'start' as const },
   { title: 'Email', key: 'email', align: 'start' as const },
-  { title: 'CPF', key: 'cpf', align: 'start' as const },
+  { title: 'Cargo', key: 'role', align: 'start' as const },
   { title: 'Ações', key: 'actions', sortable: false, align: 'center' as const },
 ])
 
@@ -100,19 +99,19 @@ function updateOptions({ page: newPage, itemsPerPage: newItemsPerPage, sortBy }:
   })
 }
 
-function openEditModal(student: Student) {
-  selectedStudent.value = student
+function openEditModal(user: User) {
+  selectedUser.value = user
   isDialogVisible.value = true
 }
 
-function openDeleteConfirm(student: Student) {
-  selectedStudent.value = student
+function openDeleteConfirm(user: User) {
+  selectedUser.value = user
   isDeleteDialogOpen.value = true
 }
 
 async function handleDeleteConfirm() {
-  if (selectedStudent.value) {
-    await mutateAsync(selectedStudent.value.ra)
+  if (selectedUser.value) {
+    await mutateAsync(selectedUser.value.id)
     isDeleteDialogOpen.value = false
   }
 }
@@ -127,3 +126,5 @@ watch(
   },
 )
 </script>
+
+<style scoped></style>
