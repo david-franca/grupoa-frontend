@@ -26,8 +26,8 @@ export const useAuth = defineStore(
     const router = useRouter()
     const token = ref<string | null>(null)
     const user = ref<User | null>(null)
-    const role = ref<UserRole | null>()
-    const tokenTimer = ref<number | null>(null)
+    const role = ref<UserRole | null>(null)
+    const tokenTimer = ref<NodeJS.Timeout | null>(null)
 
     const isLoggedIn = computed(() => !!token.value)
     const isAdmin = computed(() => role.value === 'admin')
@@ -90,7 +90,7 @@ export const useAuth = defineStore(
       setAuthHeader(null)
     }
 
-    return { token, isLoggedIn, setAuth, clearAuth, isAdmin, isUser, user, role }
+    return { token, isLoggedIn, setAuth, clearAuth, isAdmin, isUser, user, role, tokenTimer }
   },
   {
     persist: true,
