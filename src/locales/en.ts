@@ -4,17 +4,30 @@ export const en = {
   $vuetify: {
     ...enLocale,
   },
+  common: {
+    alt: {
+      logo: 'MaisA Logo',
+    },
+  },
   login: {
     title: 'Management System',
     subtitle: 'Sign in with your account to continue',
     button: 'Sign In',
     email: 'Email',
     password: 'Password',
+    rules: {
+      passwordMin: 'Password must be at least {min} characters',
+    },
   },
   layout: {
     students: 'Students',
     users: 'Users',
     home: 'Home',
+    languages: {
+      pt: 'Portuguese',
+      en: 'English',
+      es: 'Spanish',
+    },
   },
   homeView: {
     title: 'Student Management Module',

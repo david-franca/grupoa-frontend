@@ -4,17 +4,30 @@ export const pt = {
   $vuetify: {
     ...ptLocale,
   },
+  common: {
+    alt: {
+      logo: 'Logo da MaisA',
+    },
+  },
   login: {
     title: 'Sistema de Gerenciamento',
     subtitle: 'Entre com sua conta para continuar',
     button: 'Entrar',
     email: 'E-mail',
     password: 'Senha',
+    rules: {
+      passwordMin: 'Senha deve ter pelo menos {min} caracteres',
+    },
   },
   layout: {
     students: 'Alunos',
     users: 'Usuários',
     home: 'Início',
+    languages: {
+      pt: 'Português',
+      en: 'Inglês',
+      es: 'Espanhol',
+    },
   },
   homeView: {
     title: 'Módulo de Gestão de Alunos',
@@ -61,7 +74,7 @@ export const pt = {
   },
   confirmDeleteDialog: {
     title: 'Confirmar Exclusão',
-    confirmationMessage: 'Você tem certeza que deseja excluir {name}"?',
+    confirmationMessage: 'Você tem certeza que deseja excluir "{name}"?',
     confirmationMessageGeneric: 'Você tem certeza que deseja excluir este item?',
     irreversibleAction: 'Esta ação não pode ser desfeita.',
     cancelButton: 'Cancelar',

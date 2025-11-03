@@ -4,17 +4,30 @@ export const es = {
   $vuetify: {
     ...esLocale,
   },
+  common: {
+    alt: {
+      logo: 'Logo de MaisA',
+    },
+  },
   login: {
     title: 'Sistema de Gestión',
     subtitle: 'Inicia sesión con tu cuenta para continuar',
     button: 'Entrar',
     email: 'Correo Electrónico',
     password: 'Contraseña',
+    rules: {
+      passwordMin: 'La contraseña debe tener al menos {min} caracteres',
+    },
   },
   layout: {
     students: 'Alumnos',
     users: 'Usuarios',
     home: 'Inicio',
+    languages: {
+      pt: 'Portugués',
+      en: 'Inglés',
+      es: 'Español',
+    },
   },
   homeView: {
     title: 'Módulo de Gestión de Alumnos',
